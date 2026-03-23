@@ -1,24 +1,7 @@
 pipeline {
     agent any
 
-    tools {
-        jdk 'jdk17'
-        gradle 'Gradle'
-        
-    }
-
-    environment {
-        GRADLE_OPTS = "-Dorg.gradle.daemon=false"
-    }
-
     stages {
-
-        stage('Checkout Code') {
-            steps {
-                echo "Cloning repository..."
-                git 'https://github.com/aaradhya177/hemawatimaamgradle.git'
-            }
-        }
 
         stage('Build') {
             steps {
@@ -30,14 +13,14 @@ pipeline {
 
         stage('Run Application') {
             steps {
-                echo "Running application..."
+                echo "Running app..."
                 sh './gradlew run'
             }
         }
 
         stage('Custom Task (Guava)') {
             steps {
-                echo "Running custom Gradle task..."
+                echo "Running custom task..."
                 sh './gradlew guavaTask'
             }
         }
@@ -45,7 +28,7 @@ pipeline {
         stage('Print Dependencies') {
             steps {
                 echo "Printing dependencies..."
-                sh './gradlew printDependencies'
+                sh './gradlew dependencies'
             }
         }
     }
