@@ -1,0 +1,47 @@
+plugins {
+    id 'application'
+}
+group = 'com.example'
+version = '1.0'
+repositories {
+    mavenCentral()
+}
+dependencies {
+    // Guava (used in App.java)
+    implementation 'com.google.guava:guava:31.1-jre'
+
+    // Apache Commons IO (optional, already added)
+    implementation 'commons-io:commons-io:2.21.0'
+
+    // JUnit for testing
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.9.1'
+}
+application {
+    mainClass = 'gradle1.App'
+}
+tasks.named('test') {
+    useJUnitPlatform()
+}
+tasks.register('guavaTask') {
+    group = "custom"
+    description = "Runs the app and prints Guava output"
+
+    doLast {
+        println "Running custom Guava task..."
+        javaexec {
+            mainClass = application.mainClass
+            classpath = sourceSets.main.runtimeClasspath
+        }
+    }
+}
+tasks.register('printDependencies') {
+    group = "help"
+    description = "Prints all runtime dependencies"
+
+    doLast {
+        println "Listing dependencies:"
+        configurations.runtimeClasspath.each {
+            println it.name
+        }
+    }
+}
